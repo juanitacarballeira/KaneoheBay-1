@@ -1,0 +1,96 @@
+---
+title: "Secondtry_Quiz1"
+output: html_document
+date: '2023-02-28'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("lubridate")
+library(tidyverse)
+library(Hmisc)
+library(patchwork)
+library(maps)
+library(lubridate)
+library(ggplot2)
+library(ggmap)
+
+data = read_csv("carbonate_chem_Kaneohe.csv")
+View(data)
+```
+
+## Is the data tidy.
+
+The data seems fine to me. There are no NAs or zero values. Labels seem clear.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+Date= select(data,c(date,temp))
+
+oct_temp= filter(Date,date == "31-Oct-15")
+
+june_temp= filter(Date,date == "29-Jun-16")
+
+nov_temp= filter(Date,date == "12-Nov-16")
+
+feb_temp= filter(Date,date == "26-Feb-17")
+
+#Calculate each mean and SD indvidually
+
+#October
+meanoct_temp=mean(oct_temp$temp)
+SDoct_temp=sd(oct_temp$temp)
+
+#June
+meanjune_temp=mean(june_temp$temp)
+SDjune_temp=sd(june_temp$temp)
+
+#February
+meanfeb_temp=mean(feb_temp$temp)
+SDfeb_temp=sd(feb_temp$temp)
+
+#November
+meannov_temp=mean(nov_temp$temp)
+SDnov_temp=sd(feb_temp$temp)
+
+## If there's time
+#df1= 
+
+
+```
+
+## Which survey date had the highest mean seawater temperature? Report mean ± standard deviation seawater temperature for each survey date to support your answer.
+
+October had the highest seawater temperature, as calculated above.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+tadic_data = data %>%
+  filter(reefstatus== "Recovery") %>%
+  select(reefstatus,ta,dic)
+  
+View(tadic_data)
+
+tadic_plot =
+  ggplot()+
+  geom_line(data=tadic_data,aes(x=ta,y=dic))+
+  xlab("Total Alkalinity (µmol/kg)")+
+  ylab("Dissolved Inorganic Carbon (µmol/kg)")+
+  ggtitle("Total Alkalinity vs Dissolved Inorganic Carbon in Kaneohe Bay")+
+  scale_x_continuous(limits=c(2100,2200),breaks=seq(2100,2200,20))+
+  scale_y_continuous(limits=c(1800,2000),breaks=seq(1800,2000,20))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_line(color="black"),
+        text = element_text(size=19),
+        legend.key = element_blank())
+
+view(tadic_plot)
+
+```
+
+##3) Create a "publishable" plot of TA vs DIC for the "bleached" survey data.
