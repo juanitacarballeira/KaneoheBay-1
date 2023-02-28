@@ -1,0 +1,43 @@
+---
+title: "JuanitaCarballeiraQuiz1revTravis"
+output: html_document
+date: '2023-02-28'
+---
+
+## Data is tidy.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(tidyverse)
+
+kbaybleaching=carbonate_chem_Kaneohe <- read.csv("carbonate_chem_Kaneohe.csv")
+
+View(kbaybleaching)
+```
+
+## Summarize by mean and sd
+
+```{r}
+
+kbaybleaching %>% #This takes data
+  group_by(date) %>% #Groups data by date
+  summarize(mean_temps=mean(temp),sd_temps=sd(temp)) #sumamarizes mean and sd temp
+```
+
+## Create publishable plot
+
+```{r}
+kbaybleaching %>%
+  filter(reefstatus=="Bleached") %>%
+  ggplot()+
+  geom_point(mapping=aes(x=dic,y=ta),size=2,alpha=0.7)+
+  xlab("Dissolved inorganic carbon (µmol/kg)")+
+  ylab("Total alkalinity (µmol/kg)")+
+  theme_classic()
+```
+
+
+
+There is a positive correlation between seawater, total alkalinity and dissolved inorganic carbon from Kane'ohe Bay, Hawaii during the October 31st, 2015 seawater chemistry surveys when coral bleaching was observed.
