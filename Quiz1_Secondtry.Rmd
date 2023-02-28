@@ -24,8 +24,7 @@ View(data)
 
 The data seems fine to me. There are no NAs or zero values. Labels seem clear.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include=TRUE, echo= TRUE, warning=FALSE, message=FALSE, results=FALSE}
 
 Date= select(data,c(date,temp))
 
@@ -65,8 +64,7 @@ SDnov_temp=sd(feb_temp$temp)
 
 October had the highest seawater temperature, as calculated above.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include=TRUE, echo= TRUE, warning=FALSE, message=FALSE, results=FALSE}
 
 tadic_data = data %>%
   filter(reefstatus== "Recovery") %>%
@@ -74,11 +72,26 @@ tadic_data = data %>%
   
 View(tadic_data)
 
+#tadic_plot =
+ # ggplot()+
+ # geom_line(data=tadic_data,aes(x=ta,y=dic))+
+ # xlab("Total Alkalinity (µmol/kg)")+
+  #ylab("Dissolved Inorganic Carbon (µmol/kg)")+
+ # ggtitle("Total Alkalinity vs Dissolved Inorganic Carbon in Kaneohe Bay")+
+ # scale_x_continuous(limits=c(2100,2200),breaks=seq(2100,2200,20))+
+ # scale_y_continuous(limits=c(1800,2000),breaks=seq(1800,2000,20))+
+ # theme(panel.grid.major = element_blank(),
+       # panel.grid.minor = element_blank(),
+       # panel.background = element_blank(),
+       # axis.line = element_line(color="black"),
+      # text = element_text(size=19),
+       #legend.key = element_blank(),
+       # legend.position = 'top')
 tadic_plot =
   ggplot()+
-  geom_line(data=tadic_data,aes(x=ta,y=dic))+
-  xlab("Total Alkalinity (µmol/kg)")+
-  ylab("Dissolved Inorganic Carbon (µmol/kg)")+
+  geom_line(data=tadic_data,aes(x=ta,y=dic,color=reefstatus,group=reefstatus),size=1,alpha=0.7)+
+  xlab("Total Alkalinity (Âµmol/kg)")+
+  ylab("Dissolved Inorganic Carbon (Âµmol/kg)")+
   ggtitle("Total Alkalinity vs Dissolved Inorganic Carbon in Kaneohe Bay")+
   scale_x_continuous(limits=c(2100,2200),breaks=seq(2100,2200,20))+
   scale_y_continuous(limits=c(1800,2000),breaks=seq(1800,2000,20))+
@@ -87,9 +100,10 @@ tadic_plot =
         panel.background = element_blank(),
         axis.line = element_line(color="black"),
         text = element_text(size=19),
-        legend.key = element_blank())
+        legend.key = element_blank(),
+        legend.position = 'top')
+tadic_plot
 
-view(tadic_plot)
 
 ```
 
